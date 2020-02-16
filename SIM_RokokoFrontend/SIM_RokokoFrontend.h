@@ -16,6 +16,10 @@
 #include <SIM/SIM_Engine.h>
 #include <SIM/SIM_DataUtils.h>
 #include <UT/UT_JSONValue.h>
+#include <UT/UT_Array.h>
+
+#include "PropTrackerInfo.h"
+
 
 
 class SIM_RokokoFrontend : public SIM_SingleSolver, public SIM_OptionsUser
@@ -33,7 +37,7 @@ protected:
         bool newobject
     );
 
-    void solveForObject(const UT_JSONValue& jsonValue);
+    void animateObjects(SIM_Object &object, const UT_Array<PropTrackerInfo>& propTrackersInfo);
 
 private:
     static const SIM_DopDescription* getMyOwnSolverDescription();

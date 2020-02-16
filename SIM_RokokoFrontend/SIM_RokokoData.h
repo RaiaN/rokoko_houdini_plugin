@@ -14,6 +14,11 @@
 #include <SIM/SIM_DopDescription.h>
 #include <UT/UT_JSONParser.h>
 #include <UT/UT_JSONValue.h>
+#include <UT/UT_Vector3.h>
+#include <UT/UT_Quaternion.h>
+#include <UT/UT_Array.h>
+
+#include "PropTrackerInfo.h"
 
 
 class UT_RokokoClientSocket;
@@ -22,11 +27,19 @@ class UT_RokokoClientSocket;
 class SIM_RokokoData : public SIM_Geometry
 {
 public:
-    bool readSocketData(UT_JSONValue& value);
+    bool readData();
 
-protected:
+    const UT_Array<PropTrackerInfo>& getPropTrackers() const;
+
+public:
     explicit SIM_RokokoData(const SIM_DataFactory* factory);
     virtual ~SIM_RokokoData();
+
+protected:
+    void parseData(const UT_JSONValue* jsonValue);
+    void parsePropsOrTrackers(const UT_JSONValue* jsonValue);
+    UT_Vector3 parsePosition(const UT_JSONValue* jsonValue);
+    UT_Quaternion parseRotation(const UT_JSONValue* jsonValue);
 
 private:
     static const SIM_DopDescription* getRokokoDataDopDescription();
@@ -45,6 +58,10 @@ private:
         "hdk_Rokoko_Data",            // DOP Data Type
         getRokokoDataDopDescription() // PRM list.
     );
+
+private:
+    UT_Array<PropTrackerInfo> propTrackers;
+
 };
 
 #endif

@@ -32,6 +32,8 @@ add_library( ${library_name} SHARED
     SIM_RokokoFrontend.h
     SIM_RokokoData.C
     SIM_RokokoData.h
+    UT_RokokoSocket.h
+    PropTrackerInfo.h
 )
 
 # Link against the Houdini libraries, and add required include directories and

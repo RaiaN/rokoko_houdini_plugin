@@ -13,6 +13,12 @@ with open("rokoko_input.txt", "r") as inp:
     rokoko_frame_json = json.loads(inp.read())
 
 
+def update_frame_data():
+    rokoko_frame_json['props'][0]['position']['x'] = rokoko_frame_json['props'][0]['position']['x'] + 0.1
+    rokoko_frame_json['props'][0]['position']['y'] = rokoko_frame_json['props'][0]['position']['y'] + 0.1
+    rokoko_frame_json['props'][0]['position']['z'] = rokoko_frame_json['props'][0]['position']['z'] + 0.1
+
+
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     print('BIND')
     s.bind((HOST, PORT))
@@ -27,7 +33,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         while True:
             print('sendall')
 
-            # TODO: update frame data
+            update_frame_data()
 
             serialized_data = json.dumps(rokoko_frame_json)
             send_res = conn.sendall(serialized_data.encode())

@@ -8,6 +8,7 @@
 #include <SIM/SIM_DopDescription.h>
 #include <UT/UT_NetStream.h>
 #include <UT/UT_JSONValueMap.h>
+#include <UT/UT_JSONValueArray.h>
 
 #include "SIM_RokokoData.h"
 
@@ -48,12 +49,9 @@ SIM_Solver::SIM_Result SIM_RokokoFrontend::solveSingleObjectSubclass(
         }
         else
         {
-            UT_JSONValue jsonValue;
-            if (rokokoData->readSocketData(jsonValue))
+            if (rokokoData->readData())
             {
-                solveForObject(jsonValue);
-
-                
+                animateObjects(object, rokokoData->getPropTrackers());
             }
 
             result = SIM_SOLVER_SUCCESS;
@@ -64,32 +62,12 @@ SIM_Solver::SIM_Result SIM_RokokoFrontend::solveSingleObjectSubclass(
 }
 
 
-void SIM_RokokoFrontend::solveForObject(const UT_JSONValue& jsonValue)
+
+void SIM_RokokoFrontend::animateObjects(SIM_Object &object, const UT_Array<PropTrackerInfo>& propTrackersInfo)
 {
-    static const UT_StringRef PROPS_KEY("props");
-    static const UT_StringRef TRACKERS_KEY("trackers");
-    static const UT_StringRef FACES_KEY("faces");
-
-    UT_JSONValueMap* jsonMap = jsonValue.getMap();
-    if (jsonMap)
+    for (const PropTrackerInfo& objInfo : propTrackersInfo)
     {
-        UT_JSONValue* props = jsonMap->get(PROPS_KEY);
-        if (props)
-        {
-
-        }
-
-        UT_JSONValue* trackers = jsonMap->get(TRACKERS_KEY);
-        if (trackers)
-        {
-
-        }
-
-        UT_JSONValue* faces = jsonMap->get(FACES_KEY);
-        if (faces)
-        {
-
-        }
+        
     }
 }
 
@@ -111,7 +89,7 @@ const SIM_DopDescription* SIM_RokokoFrontend::getMyOwnSolverDescription()
     return &theDopDescription;
 }
 
-void initializeSIM(void *)
+void initializeSIM(void*)
 {
     IMPLEMENT_DATAFACTORY(SIM_RokokoFrontend);
     IMPLEMENT_DATAFACTORY(SIM_RokokoData);
