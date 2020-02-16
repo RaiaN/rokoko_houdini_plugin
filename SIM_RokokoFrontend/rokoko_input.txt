@@ -1,0 +1,149 @@
+{
+  "version": 1,
+  "timestamp": 0,
+  "playbackTimestamp": 0,
+  "props": 
+    [
+      {
+        "name": "Camera-1",
+        "id": "43e83f03-41fd-4849-89f1-c334a0a0a100",
+        "position": {
+          "x": 0.00,
+          "y": 1.00,
+          "z": -1.00
+        },
+        "rotation": {
+          "x": 0.00,
+          "y": 0.00,
+          "z": 0.00,
+          "w": 1.00
+        },
+        "isLive": true,
+        "profile": {
+          "name": "Camera",
+          "uuid": "camera-1",
+          "dimensions": {
+            "x": 0.24,
+            "y": 0.18,
+            "z": 0.04
+          },
+          "color": {
+            "x": 0.8980392,
+            "y": 0.5647059,
+            "z": 0.254902
+          },
+          "trackerOffset": {
+            "position": {
+              "x": -0.06,
+              "y": 0.1,
+              "z": 0.00
+            },
+            "rotation": {
+              "x": -90.00,
+              "y": 0.00,
+              "z": 0.00
+            }
+          },
+          "pivot": {
+            "position": {
+              "x": 0.00,
+              "y": 0.00,
+              "z": 0.02
+            },
+            "rotation": {
+              "x": 0.00,
+              "y": 0.00,
+              "z": 0.00
+            }
+          },
+          "grips": [],
+          "propType": 1
+        }
+      }
+    ],
+  "trackers": 
+    [ 
+      {
+        "name": "2",
+        "connectionId": "",
+        "position": {
+          "x": -1.866039,
+          "y": 2.214238,
+          "z": 0.976444244
+        },
+        "rotation": {
+          "x": 0.119269691,
+          "y": 0.864182353,
+          "z": -0.302122056,
+          "w": 0.384299219
+        },
+        "isLive": false,
+        "trackingResult": 200,
+        "trackerType": 3,
+        "RenderModelName": null,
+        "battery": 1
+      }
+    ],
+  "faces": 
+    [
+    {
+      "type": "",
+      "version": 1,
+      "timestamp": 15.90625,
+      "provider": "arkit",
+      "faceId": "kfQ92I",
+      "eyeBlinkLeft": 10.423128128051758,
+      "eyeLookDownLeft": 35.48899459838867,
+      "eyeLookInLeft": 18.386842727661133,
+      "eyeLookOutLeft": 0,
+      "eyeLookUpLeft": 0,
+      "eyeSquintLeft": 4.489943027496338,
+      "eyeWideLeft": -0.04869464784860611,
+      "eyeBlinkRight": 9.821502685546875,
+      "eyeLookDownRight": 35.68144989013672,
+      "eyeLookInRight": 0,
+      "eyeLookOutRight": 7.081108570098877,
+      "eyeLookUpRight": 0,
+      "eyeSquintRight": 4.489765167236328,
+      "eyeWideRight": 0.10375167429447174,
+      "jawForward": 3.4743118286132812,
+      "jawLeft": 6.432651519775391,
+      "jawRight": 0.4286651015281677,
+      "jawOpen": 1.1336894035339355,
+      "mouthClose": 1.881866216659546,
+      "mouthFunnel": 28.589218139648438,
+      "mouthPucker": 22.892288208007812,
+      "mouthLeft": 28.11800193786621,
+      "mouthRight": -0.08033499121665955,
+      "mouthSmileLeft": -3.6168370025648514e-30,
+      "mouthSmileRight": 1.9993203056664632e-13,
+      "mouthFrownLeft": 22.93413734436035,
+      "mouthFrownRight": 33.253814697265625,
+      "mouthDimpleLeft": 6.759854316711426,
+      "mouthDimpleRight": 5.020760536193848,
+      "mouthStretchLeft": 12.525871276855469,
+      "mouthStretchRight": 9.9591646194458,
+      "mouthRollLower": 17.405588150024414,
+      "mouthRollUpper": 6.024715900421143,
+      "mouthShrugLower": 29.725732803344727,
+      "mouthShrugUpper": 8.106572151184082,
+      "mouthPressLeft": 6.822591781616211,
+      "mouthPressRight": 6.082425594329834,
+      "mouthLowerDownLeft": 2.701260805130005,
+      "mouthLowerDownRight": 2.885373592376709,
+      "mouthUpperUpLeft": 3.442898750305176,
+      "mouthUpperUpRight": 3.565769672393799,
+      "browDownLeft": 5.995030583072491e-10,
+      "browDownRight": 6.158910048625899e-10,
+      "browInnerUp": 32.18539047241211,
+      "browOuterUpLeft": 30.339876174926758,
+      "browOuterUpRight": 34.256103515625,
+      "cheekPuff": 26.408052444458008,
+      "cheekSquintLeft": 4.071810722351074,
+      "cheekSquintRight": 3.034027338027954,
+      "noseSneerLeft": 5.355647087097168,
+      "noseSneerRight": 4.996218681335449,
+      "tongueOut": 0.02484029158949852
+    }
+    ]
+}
