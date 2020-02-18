@@ -14,9 +14,9 @@ with open("rokoko_input.txt", "r") as inp:
 
 
 def update_frame_data():
-    rokoko_frame_json['props'][0]['position']['x'] = rokoko_frame_json['props'][0]['position']['x'] + 0.1
-    rokoko_frame_json['props'][0]['position']['y'] = rokoko_frame_json['props'][0]['position']['y'] + 0.1
-    rokoko_frame_json['props'][0]['position']['z'] = rokoko_frame_json['props'][0]['position']['z'] + 0.1
+    rokoko_frame_json['props'][0]['position']['x'] = rokoko_frame_json['props'][0]['position']['x'] + 0.0001
+    rokoko_frame_json['props'][0]['position']['y'] = rokoko_frame_json['props'][0]['position']['y'] + 0.0001
+    rokoko_frame_json['props'][0]['position']['z'] = rokoko_frame_json['props'][0]['position']['z'] + 0.0001
 
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:

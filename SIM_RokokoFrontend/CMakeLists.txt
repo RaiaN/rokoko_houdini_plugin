@@ -28,12 +28,13 @@ SET_SOURCE_FILES_PROPERTIES(
 
 # Add a library and its source files.
 add_library( ${library_name} SHARED
-    SIM_RokokoFrontend.C
-    SIM_RokokoFrontend.h
-    SIM_RokokoData.C
-    SIM_RokokoData.h
-    UT_RokokoSocket.h
+    OBJ_RokokoFrontend.C
+    OBJ_RokokoFrontend.h
+    RokokoData.C
+    RokokoData.h
+    RokokoClientSocket.h
     PropTrackerInfo.h
+    RokokoReceiver.h
 )
 
 # Link against the Houdini libraries, and add required include directories and

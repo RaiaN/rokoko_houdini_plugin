@@ -4,12 +4,12 @@
 #define _PROP_TRACKER_INFO_H
 
 #include <UT/UT_Vector3.h>
-#include <UT/UT_Vector4.h>
+#include <UT/UT_Quaternion.h>
 
 struct PropTrackerInfo
 {
 public:
-    char name[1024];
+    std::string name;
     UT_Vector3 position;
     UT_Quaternion rotation;
 };
