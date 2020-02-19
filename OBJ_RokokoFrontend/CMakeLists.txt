@@ -15,7 +15,7 @@ list( APPEND CMAKE_PREFIX_PATH "$ENV{HDK_PATH}/toolkit/cmake" )
 # Registers an imported library target named 'Houdini'.
 find_package( Houdini REQUIRED )
 
-set( library_name SIM_RokokoFrontend )
+set( library_name OBJ_RokokoFrontend )
 
 # No optimization.
 # Turn on debugging information instead.
