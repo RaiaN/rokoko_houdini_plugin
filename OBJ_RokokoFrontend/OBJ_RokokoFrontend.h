@@ -7,6 +7,7 @@
 #include <OBJ/OBJ_Geometry.h>
 #include <OP/OP_Error.h>
 #include <OP/OP_Context.h>
+#include <OP/OP_OperatorPair.h>
 
 
 class OP_Network;
@@ -27,6 +28,10 @@ public:
         const char* name,
         OP_Operator* entry
     );
+
+    static OP_TemplatePair* buildTemplatePair(OP_TemplatePair* prevstuff);
+
+
 
     
 protected:

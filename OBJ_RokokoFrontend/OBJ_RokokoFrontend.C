@@ -12,6 +12,24 @@
 #include "RokokoReceiver.h"
 
 
+static PRM_Name OBJ_IP("ip", "IP");
+static PRM_Name OBJ_Port("port", "Port");
+
+static PRM_Default initPortDefault(14013);
+static PRM_Default initIPDefault(0, "127.0.0.1");
+
+static PRM_Range initPortRange(PRM_RANGE_UI, 1, PRM_RANGE_UI, 65535);
+
+
+static PRM_Template templatelist[] =
+{
+    PRM_Template(PRM_INT_E, 1, &OBJ_Port, &initPortDefault, 0, &initPortRange),
+    PRM_Template(PRM_STRING, 1, &OBJ_IP, &initIPDefault),
+
+    // blank terminating Template.
+    PRM_Template()
+};
+
 
 
 // Constructor for new object class
@@ -19,6 +37,7 @@ OBJ_RokokoFrontend::OBJ_RokokoFrontend(OP_Network* net, const char* name, OP_Ope
 {
     // TODO: use framerate param
     receiver = new RokokoReceiver(16);
+
 }
 
 // virtual destructor for new object class
@@ -32,6 +51,62 @@ OBJ_RokokoFrontend::~OBJ_RokokoFrontend()
         receiver = nullptr;
     }
 }
+
+static void copyParmWithInvisible(PRM_Template& src, PRM_Template& dest)
+{
+    PRM_Name* new_name;
+
+    new_name = new PRM_Name(src.getToken(), src.getLabel(), src.getExpressionFlag());
+    new_name->harden();
+
+    dest.initialize(
+        (PRM_Type)(src.getType() | PRM_TYPE_INVISIBLE),
+        src.getTypeExtended(),
+        src.exportLevel(),
+        src.getVectorSize(),
+        new_name,
+        src.getFactoryDefaults(),
+        src.getChoiceListPtr(),
+        src.getRangePtr(),
+        src.getCallback(),
+        src.getSparePtr(),
+        src.getParmGroup(),
+        (const char *)src.getHelpText(),
+        src.getConditionalBasePtr()
+    );
+}
+// this function returns the OP_TemplatePair that combines the parameters
+// of this object with those of its ancestors in the (object class hierarchy)
+OP_TemplatePair* OBJ_RokokoFrontend::buildTemplatePair(OP_TemplatePair* prevstuff)
+{
+    OP_TemplatePair* rokokoTemplates;
+    OP_TemplatePair* geo;
+
+    // The parm templates here are not created as a static list because
+    // if that static list was built before the OBJbaseTemplate static list
+    // (which it references) then that list would be corrupt. Thus we have
+    // to force our static list to be created after OBJbaseTemplate.
+    static PRM_Template* theTemplate = 0;
+    if (!theTemplate)
+    {       
+        PRM_Template* obj_template = OBJ_Geometry::getTemplateList(OBJ_PARMS_PLAIN);
+        int size = PRM_Template::countTemplates(obj_template);
+        theTemplate = new PRM_Template[size + 1];   // add +1 for sentinel
+        
+        for (int i = 0; i < size; i++)
+        {
+            theTemplate[i] = obj_template[i];
+            copyParmWithInvisible(obj_template[i], theTemplate[i]);
+        }
+    }
+    // Here, we have to "inherit" template pairs from geometry and beyond. To
+    // do this, we first need to instantiate our template list, then add the
+    // base class templates.
+    rokokoTemplates = new OP_TemplatePair(templatelist, prevstuff);
+    geo = new OP_TemplatePair(theTemplate, rokokoTemplates);
+    return geo;
+}
+
 
 
 OP_Node* OBJ_RokokoFrontend::myConstructor(OP_Network* net, const char* name, OP_Operator* op)
@@ -52,18 +127,20 @@ OP_ERROR OBJ_RokokoFrontend::cookMyObj(OP_Context& context)
     return errorstatus;
 }
 
+
 // this function installs the new object in houdini's object table.
 void newObjectOperator(OP_OperatorTable* table)
 {
     table->addOperator(
         new OP_Operator(
-            "obj_rokoko_frontend", "Rokoko Frontend",
+            "obj_rokoko_frontend",
+            "Rokoko Frontend",
             OBJ_RokokoFrontend::myConstructor,
-            OBJ_Geometry::getTemplateList(OBJ_PARMS_PLAIN),
+            OBJ_RokokoFrontend::buildTemplatePair(0),
             OBJ_RokokoFrontend::theChildTableName,
-            0, 
+            0,
             1,
-            0
+            nullptr
         )
     );
 }
