@@ -5,6 +5,8 @@
 
 #include <FS/FS_EventGenerator.h>
 #include <UT/UT_Array.h>
+#include <UT/UT_XformOrder.h>
+#include <UT/UT_Vector3.h>
 #include <OP/OP_Director.h>
 #include <OP/OP_Node.h>
 #include <CH/CH_Manager.h>
@@ -47,13 +49,14 @@ public:
 
                     Node->setFloat("t", 0, CHgetEvalTime(), objInfo.position.x());
                     Node->setFloat("t", 1, CHgetEvalTime(), objInfo.position.y());
-                    Node->setFloat("t", 0, CHgetEvalTime(), objInfo.position.z());
+                    Node->setFloat("t", 2, CHgetEvalTime(), objInfo.position.z());
                     
+                    UT_XformOrder order;
+                    UT_Vector3 EulerRotations = objInfo.rotation.computeRotations(order);
 
-                    /*Node->setFloat("r", 0, CHgetEvalTime(), objInfo.rotation.x());
-                    Node->setFloat("r", 1, CHgetEvalTime(), objInfo.rotation.y());
-                    Node->setFloat("r", 2, CHgetEvalTime(), objInfo.rotation.z());
-                    Node->setFloat("r", 3, CHgetEvalTime(), objInfo.rotation.w());*/
+                    Node->setFloat("r", 0, CHgetEvalTime(), EulerRotations[0]);
+                    Node->setFloat("r", 1, CHgetEvalTime(), EulerRotations[1]);
+                    Node->setFloat("r", 2, CHgetEvalTime(), EulerRotations[2]);
                 }
             }
         }
