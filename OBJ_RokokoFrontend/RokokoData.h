@@ -19,7 +19,7 @@ class RokokoData
 {
 
 public:
-    explicit RokokoData();
+    explicit RokokoData(int inPort, const std::string& inIp);
     virtual ~RokokoData();
 
 public:
@@ -42,6 +42,9 @@ private:
     RokokoClientSocket* myClientSocket;
 
     UT_Array<PropTrackerInfo> propTrackers;
+
+    int port;
+    std::string ip;
 };
 
 #endif

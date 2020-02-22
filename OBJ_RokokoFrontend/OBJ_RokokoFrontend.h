@@ -38,6 +38,25 @@ protected:
     OP_ERROR cookMyObj(OP_Context& context) override;
 
 private:
+    int PORT(fpreal t)
+    {
+        return evalInt("port", 0, t);
+    }
+
+    int UPDATE_RATE(fpreal t)
+    {
+        return evalInt("update_rate", 0, t);
+    }
+
+    std::string IP(fpreal t)
+    {
+        UT_String value;
+        evalString(value, "ip", 0, t);
+
+        return value.c_str();
+    }
+
+private:
     RokokoReceiver* receiver;
 };
 

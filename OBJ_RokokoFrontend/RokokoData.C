@@ -11,7 +11,7 @@
 #include "RokokoClientSocket.h"
 
 
-RokokoData::RokokoData()
+RokokoData::RokokoData(int inPort, const std::string& inIp) : port(inPort), ip(inIp)
 {
     createClientSocket();
 
@@ -207,8 +207,7 @@ UT_Quaternion RokokoData::parseRotation(const UT_JSONValue* jsonValue)
 
 void RokokoData::createClientSocket()
 {
-    // TODO: use Node param
-    myClientSocket = new RokokoClientSocket("127.0.0.1", 11111);
+    myClientSocket = new RokokoClientSocket(ip.c_str(), port);
 }
 
 bool RokokoData::openClientSocket()

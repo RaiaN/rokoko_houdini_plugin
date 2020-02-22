@@ -18,9 +18,9 @@
 
 class RokokoReceiver : public FS_EventGenerator {
 public:
-    RokokoReceiver(int inRate) : rate(inRate)
+    RokokoReceiver(int inRate, int inPort, const std::string& inIp) : rate(inRate), port(inPort), ip(inIp)
     {
-        data = new RokokoData();
+        data = new RokokoData(inPort, inIp);
     }
 
     virtual ~RokokoReceiver()
@@ -84,7 +84,11 @@ private:
     bool bInstalled = false;
 
     RokokoData* data = nullptr;
-    int rate = 1.0f;
+    
+    
+    int rate;
+    int port;
+    std::string ip;
 };
 
 #endif

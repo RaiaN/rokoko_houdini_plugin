@@ -8,23 +8,31 @@
 #include <OP/OP_Operator.h>
 #include <OP/OP_OperatorPair.h>
 #include <OP/OP_OperatorTable.h>
+#include <CH/CH_Manager.h>
 
 #include "RokokoReceiver.h"
 
 
-static PRM_Name OBJ_IP("ip", "IP");
-static PRM_Name OBJ_Port("port", "Port");
+static PRM_Name Port_Param("port", "Port");
+static PRM_Name IP_Param("ip", "IP");
+static PRM_Name UpdateRate_Param("update_rate", "Update rate (FPS)");
 
-static PRM_Default initPortDefault(14013);
-static PRM_Default initIPDefault(0, "127.0.0.1");
 
-static PRM_Range initPortRange(PRM_RANGE_UI, 1, PRM_RANGE_UI, 65535);
+static PRM_Default PortDefault(14013);
+static PRM_Default IPDefault(0, "127.0.0.1");
+static PRM_Default UpdateRateDefault(60);
+
+static PRM_Range PortRange(PRM_RANGE_UI, 1, PRM_RANGE_UI, 65535);
+static PRM_Range UpdateRateRange(PRM_RANGE_UI, 1, PRM_RANGE_UI, 240);
+
+static PRM_Callback
 
 
 static PRM_Template templatelist[] =
 {
-    PRM_Template(PRM_INT_E, 1, &OBJ_Port, &initPortDefault, 0, &initPortRange),
-    PRM_Template(PRM_STRING, 1, &OBJ_IP, &initIPDefault),
+    PRM_Template(PRM_INT_E, 1, &Port_Param, &PortDefault, 0, &PortRange),
+    PRM_Template(PRM_STRING, 1, &IP_Param, &IPDefault),
+    PRM_Template(PRM_FLT_E, 1, &UpdateRate_Param, &UpdateRateDefault),
 
     // blank terminating Template.
     PRM_Template()
@@ -35,8 +43,13 @@ static PRM_Template templatelist[] =
 // Constructor for new object class
 OBJ_RokokoFrontend::OBJ_RokokoFrontend(OP_Network* net, const char* name, OP_Operator* op) : OBJ_Geometry(net, name, op)
 {
-    // TODO: use framerate param
-    receiver = new RokokoReceiver(16);
+    const fpreal evalTime = CHgetEvalTime();
+
+    const int updateRateMs = 1000 / UPDATE_RATE(evalTime);
+    const int port = PORT(evalTime);
+    const std::string ip = IP(evalTime);
+
+    receiver = new RokokoReceiver(updateRateMs, port, ip);
 
 }
 
