@@ -103,3 +103,8 @@ void RokokoReceiver::setIpAndPort(const std::string& inIp, int inPort)
 {
     socketReader->setIpAndPort(inIp, inPort);
 }
+
+void RokokoReceiver::reset()
+{
+    socketReader->reset();
+}

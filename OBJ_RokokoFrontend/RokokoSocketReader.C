@@ -41,6 +41,14 @@ bool RokokoSocketReader::read(std::string& outBuffer)
 
 void RokokoSocketReader::setIpAndPort(const std::string& inIp, int inPort)
 {
+    ip = inIp;
+    port = inPort;
+    
+    reset();
+}
+
+void RokokoSocketReader::reset()
+{
     destroyClientSocket();
     createClientSocket();
 }

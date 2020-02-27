@@ -16,7 +16,7 @@
 static PRM_Name Port_Param("port", "Port");
 static PRM_Name IP_Param("ip", "IP");
 static PRM_Name UpdateRate_Param("update_rate", "Update rate (FPS)");
-
+static PRM_Name ResetBtnParam("reset_receiver", "Reset");
 
 static PRM_Default PortDefault(14013);
 static PRM_Default IPDefault(0, "127.0.0.1");
@@ -26,11 +26,14 @@ static PRM_Range PortRange(PRM_RANGE_UI, 1, PRM_RANGE_UI, 65535);
 static PRM_Range UpdateRateRange(PRM_RANGE_UI, 1, PRM_RANGE_UI, 240);
 
 
+
+
 static PRM_Template templatelist[] =
 {
-    PRM_Template(PRM_INT_E, 1, &Port_Param, &PortDefault, 0, &PortRange, &OBJ_RokokoFrontend::OnIpOrPortChanged),
-    PRM_Template(PRM_STRING, 1, &IP_Param, &IPDefault, 0, 0, &OBJ_RokokoFrontend::OnIpOrPortChanged),
-    PRM_Template(PRM_FLT_E, 1, &UpdateRate_Param, &UpdateRateDefault, 0, &UpdateRateRange, &OBJ_RokokoFrontend::OnUpdateRateChanged),
+    PRM_Template(PRM_INT_E, 1, &Port_Param, &PortDefault, 0, &PortRange, &OBJ_RokokoFrontend::UI_OnIpOrPortChanged),
+    PRM_Template(PRM_STRING, 1, &IP_Param, &IPDefault, 0, 0, &OBJ_RokokoFrontend::UI_OnIpOrPortChanged),
+    PRM_Template(PRM_FLT_E, 1, &UpdateRate_Param, &UpdateRateDefault, 0, &UpdateRateRange, &OBJ_RokokoFrontend::UI_OnUpdateRateChanged),
+    PRM_Template(PRM_CALLBACK, 1, &ResetBtnParam, 0, 0, 0, &OBJ_RokokoFrontend::UI_OnReset),
 
     // blank terminating Template.
     PRM_Template()
@@ -114,28 +117,49 @@ OP_TemplatePair* OBJ_RokokoFrontend::buildTemplatePair(OP_TemplatePair* prevstuf
     return geo;
 }
 
-int OBJ_RokokoFrontend::OnUpdateRateChanged(void* data, int index, fpreal t, const PRM_Template* templateParam)
+int OBJ_RokokoFrontend::UI_OnUpdateRateChanged(void* data, int index, fpreal t, const PRM_Template* templateParam)
 {
     OBJ_RokokoFrontend* rokokoFrontend = static_cast<OBJ_RokokoFrontend*>(data);
-    
-    const int updateRateFPS = rokokoFrontend->GET_UPDATE_RATE();
-    const int updateRateMs = 1000 / updateRateFPS;
-
-    rokokoFrontend->receiver->setUpdateRate(updateRateMs);
+    rokokoFrontend->OnUpdateRateChanged();
 
     return 1;
 }
 
-int OBJ_RokokoFrontend::OnIpOrPortChanged(void* data, int index, fpreal t, const PRM_Template* templateParam)
+
+int OBJ_RokokoFrontend::UI_OnIpOrPortChanged(void* data, int index, fpreal t, const PRM_Template* templateParam)
 {
     OBJ_RokokoFrontend* rokokoFrontend = static_cast<OBJ_RokokoFrontend*>(data);
-
-    const std::string newIp = rokokoFrontend->GET_IP();
-    const int newPort = rokokoFrontend->GET_PORT();
-
-    rokokoFrontend->receiver->setIpAndPort(newIp, newPort);
+    rokokoFrontend->OnIpOrPortChanged();
 
     return 1;
+}
+
+
+int OBJ_RokokoFrontend::UI_OnReset(void* data, int index, fpreal t, const PRM_Template* templateParam)
+{
+    OBJ_RokokoFrontend* rokokoFrontend = static_cast<OBJ_RokokoFrontend*>(data);
+    rokokoFrontend->OnReset();
+
+    return 1;
+}
+
+void OBJ_RokokoFrontend::OnUpdateRateChanged()
+{
+    const int updateRateMs = 1000 / GET_UPDATE_RATE();
+    receiver->setUpdateRate(updateRateMs);
+}
+
+void OBJ_RokokoFrontend::OnIpOrPortChanged()
+{
+    const std::string newIp = GET_IP();
+    const int newPort = GET_PORT();
+
+    receiver->setIpAndPort(newIp, newPort);
+}
+
+void OBJ_RokokoFrontend::OnReset()
+{
+    receiver->reset();
 }
 
 int OBJ_RokokoFrontend::GET_PORT()

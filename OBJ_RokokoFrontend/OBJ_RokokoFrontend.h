@@ -31,8 +31,13 @@ public:
 
     static OP_TemplatePair* buildTemplatePair(OP_TemplatePair* prevstuff);
 
-    static int OnUpdateRateChanged(void* data, int index, fpreal t, const PRM_Template* templateParam);
-    static int OnIpOrPortChanged(void* data, int index, fpreal t, const PRM_Template* templateParam);
+    static int UI_OnUpdateRateChanged(void* data, int index, fpreal t, const PRM_Template* templateParam);
+    static int UI_OnIpOrPortChanged(void* data, int index, fpreal t, const PRM_Template* templateParam);
+    static int UI_OnReset(void* data, int index, fpreal t, const PRM_Template* templateParam);
+
+    void OnUpdateRateChanged();
+    void OnIpOrPortChanged();
+    void OnReset();
 
 public:
     int GET_PORT();

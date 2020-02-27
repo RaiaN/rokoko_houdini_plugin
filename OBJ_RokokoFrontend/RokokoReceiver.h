@@ -29,6 +29,7 @@ public:
     void stop();
     void setUpdateRate(int inRate);
     void setIpAndPort(const std::string& inIp, int inPort);
+    void reset();
 
 private:
     bool bInstalled = false;
