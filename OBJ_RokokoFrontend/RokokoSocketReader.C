@@ -39,6 +39,12 @@ bool RokokoSocketReader::read(std::string& outBuffer)
     return false;
 }
 
+void RokokoSocketReader::setIpAndPort(const std::string& inIp, int inPort)
+{
+    destroyClientSocket();
+    createClientSocket();
+}
+
 void RokokoSocketReader::createClientSocket()
 {
     socket = UT_NetSocket::newSocketFromAddr(ip.c_str(), port);
@@ -46,7 +52,7 @@ void RokokoSocketReader::createClientSocket()
 
 bool RokokoSocketReader::openClientSocket()
 {
-    if (socket->isConnected())
+    if (socket && socket->isConnected())
     {
         return true;
     }

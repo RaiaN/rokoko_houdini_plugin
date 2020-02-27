@@ -34,8 +34,10 @@ add_library( ${library_name} SHARED
     RokokoDataParser.h
     RokokoSocketReader.C
     RokokoSocketReader.h
-    PropTrackerInfo.h
+    RokokoReceiver.C
     RokokoReceiver.h
+    PropTrackerInfo.h
+    
 )
 
 # Link against the Houdini libraries, and add required include directories and

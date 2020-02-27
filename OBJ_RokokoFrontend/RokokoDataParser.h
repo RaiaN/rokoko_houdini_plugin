@@ -3,14 +3,16 @@
 #ifndef _ROKOKO_DATA_PARSER_H_
 #define _ROKOKO_DATA_PARSER_H_
 
-#include <UT/UT_JSONParser.h>
-#include <UT/UT_JSONValue.h>
+#include <string>
+
 #include <UT/UT_Vector3.h>
 #include <UT/UT_Quaternion.h>
 #include <UT/UT_Array.h>
 
 #include "PropTrackerInfo.h"
 
+
+class UT_JSONValue;
 
 
 class RokokoDataParser

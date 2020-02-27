@@ -18,6 +18,7 @@ public:
 
 public:
     bool read(std::string& outBuffer);
+    void setIpAndPort(const std::string& inIp, int inPort);
 
 private:
     void createClientSocket();

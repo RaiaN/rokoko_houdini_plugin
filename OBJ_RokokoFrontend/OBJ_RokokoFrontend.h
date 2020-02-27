@@ -9,10 +9,10 @@
 #include <OP/OP_Context.h>
 #include <OP/OP_OperatorPair.h>
 
-
 class OP_Network;
 class OP_Operator;
 class OP_TemplatePair;
+class PRM_Template;
 class RokokoReceiver;
 
 
@@ -30,6 +30,9 @@ public:
     );
 
     static OP_TemplatePair* buildTemplatePair(OP_TemplatePair* prevstuff);
+
+    static int OnUpdateRateChanged(void* data, int index, fpreal t, const PRM_Template* templateParam);
+    static int OnIpOrPortChanged(void* data, int index, fpreal t, const PRM_Template* templateParam);
 
 public:
     int GET_PORT();
