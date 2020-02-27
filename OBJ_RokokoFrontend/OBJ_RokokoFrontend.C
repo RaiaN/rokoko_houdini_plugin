@@ -18,7 +18,7 @@ static PRM_Name IP_Param("ip", "IP");
 static PRM_Name UpdateRate_Param("update_rate", "Update rate (FPS)");
 static PRM_Name ResetBtnParam("reset_receiver", "Reset");
 
-static PRM_Default PortDefault(14013);
+static PRM_Default PortDefault(11111);
 static PRM_Default IPDefault(0, "127.0.0.1");
 static PRM_Default UpdateRateDefault(60);
 
@@ -32,7 +32,7 @@ static PRM_Template templatelist[] =
 {
     PRM_Template(PRM_INT_E, 1, &Port_Param, &PortDefault, 0, &PortRange, &OBJ_RokokoFrontend::UI_OnIpOrPortChanged),
     PRM_Template(PRM_STRING, 1, &IP_Param, &IPDefault, 0, 0, &OBJ_RokokoFrontend::UI_OnIpOrPortChanged),
-    PRM_Template(PRM_FLT_E, 1, &UpdateRate_Param, &UpdateRateDefault, 0, &UpdateRateRange, &OBJ_RokokoFrontend::UI_OnUpdateRateChanged),
+    PRM_Template(PRM_INT_E, 1, &UpdateRate_Param, &UpdateRateDefault, 0, &UpdateRateRange, &OBJ_RokokoFrontend::UI_OnUpdateRateChanged),
     PRM_Template(PRM_CALLBACK, 1, &ResetBtnParam, 0, 0, 0, &OBJ_RokokoFrontend::UI_OnReset),
 
     // blank terminating Template.
