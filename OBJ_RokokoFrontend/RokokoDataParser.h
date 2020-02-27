@@ -1,7 +1,7 @@
 // Copyright Peter Leontev 2020
 
-#ifndef _SIM_ROKOKO_DATA_H
-#define _SIM_ROKOKO_DATA_H
+#ifndef _ROKOKO_DATA_PARSER_H_
+#define _ROKOKO_DATA_PARSER_H_
 
 #include <UT/UT_JSONParser.h>
 #include <UT/UT_JSONValue.h>
@@ -12,39 +12,25 @@
 #include "PropTrackerInfo.h"
 
 
-class RokokoClientSocket;
 
-
-class RokokoData
+class RokokoDataParser
 {
 
 public:
-    explicit RokokoData(int inPort, const std::string& inIp);
-    virtual ~RokokoData();
+    RokokoDataParser();
+    virtual ~RokokoDataParser();
 
 public:
-    bool readData();
-
-    const UT_Array<PropTrackerInfo>& getPropTrackers() const;
+    const UT_Array<PropTrackerInfo>& parse(const std::string& data);
 
 protected:
     void parseData(const UT_JSONValue* jsonValue);
     void parsePropsOrTrackers(const UT_JSONValue* jsonValue);
     UT_Vector3 parsePosition(const UT_JSONValue* jsonValue);
     UT_Quaternion parseRotation(const UT_JSONValue* jsonValue);
-
-private:
-    void createClientSocket();
-    bool openClientSocket();
-    void destroyClientSocket();
     
 private:
-    RokokoClientSocket* myClientSocket;
-
     UT_Array<PropTrackerInfo> propTrackers;
-
-    int port;
-    std::string ip;
 };
 
 #endif

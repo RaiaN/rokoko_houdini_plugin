@@ -30,9 +30,10 @@ SET_SOURCE_FILES_PROPERTIES(
 add_library( ${library_name} SHARED
     OBJ_RokokoFrontend.C
     OBJ_RokokoFrontend.h
-    RokokoData.C
-    RokokoData.h
-    RokokoClientSocket.h
+    RokokoDataParser.C
+    RokokoDataParser.h
+    RokokoSocketReader.C
+    RokokoSocketReader.h
     PropTrackerInfo.h
     RokokoReceiver.h
 )

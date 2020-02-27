@@ -1,7 +1,7 @@
 // Copyright Peter Leontev 2020
 
-#ifndef _OBJ_ROKOKO_FRONTEND_H
-#define _OBJ_ROKOKO_FRONTEND_H
+#ifndef _OBJ_ROKOKO_FRONTEND_H_
+#define _OBJ_ROKOKO_FRONTEND_H_
 
 
 #include <OBJ/OBJ_Geometry.h>
@@ -31,30 +31,13 @@ public:
 
     static OP_TemplatePair* buildTemplatePair(OP_TemplatePair* prevstuff);
 
-
-
+public:
+    int GET_PORT();
+    int GET_UPDATE_RATE();
+    std::string GET_IP();
     
 protected:
     OP_ERROR cookMyObj(OP_Context& context) override;
-
-private:
-    int PORT(fpreal t)
-    {
-        return evalInt("port", 0, t);
-    }
-
-    int UPDATE_RATE(fpreal t)
-    {
-        return evalInt("update_rate", 0, t);
-    }
-
-    std::string IP(fpreal t)
-    {
-        UT_String value;
-        evalString(value, "ip", 0, t);
-
-        return value.c_str();
-    }
 
 private:
     RokokoReceiver* receiver;

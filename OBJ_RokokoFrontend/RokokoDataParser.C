@@ -1,6 +1,6 @@
 // Copyright Peter Leontev 2020
 
-#include "RokokoData.h"
+#include "RokokoDataParser.h"
 
 #include <string.h>
 
@@ -8,58 +8,33 @@
 #include <UT/UT_NetSocket.h>
 #include <UT/UT_StringHolder.h>
 
-#include "RokokoClientSocket.h"
 
-
-RokokoData::RokokoData(int inPort, const std::string& inIp) : port(inPort), ip(inIp)
+RokokoDataParser::RokokoDataParser()
 {
-    createClientSocket();
-
     
 }
 
-RokokoData::~RokokoData()
+RokokoDataParser::~RokokoDataParser()
 {
-    destroyClientSocket();
 
 }
 
-bool RokokoData::readData()
+const UT_Array<PropTrackerInfo>& RokokoDataParser::parse(const std::string& data)
 {
-    if (!myClientSocket)
+    propTrackers.clear();
+    
+    UT_AutoJSONParser parser(data.c_str(), data.length());
+
+    UT_JSONValue value;
+    if (value.parseValue(parser))
     {
-        return false;
+        parseData(&value);
     }
 
-    if (!openClientSocket())
-    {
-        return false;
-    }
-
-    UT_WorkBuffer buffer;
-    const int readResult = myClientSocket->read(buffer);
-
-    if (readResult == UT_NetSocket::UT_CONNECT_SUCCESS)
-    {
-        UT_AutoJSONParser parser(buffer.buffer(), buffer.length());
-
-        UT_JSONValue value;
-        if (value.parseValue(parser))
-        {
-            parseData(&value);
-        }
-    }
-
-    return true;
-}
-
-const UT_Array<PropTrackerInfo>& RokokoData::getPropTrackers() const
-{
     return propTrackers;
 }
 
-
-void RokokoData::parseData(const UT_JSONValue* jsonValue)
+void RokokoDataParser::parseData(const UT_JSONValue* jsonValue)
 {
     if (!jsonValue)
     {
@@ -78,8 +53,6 @@ void RokokoData::parseData(const UT_JSONValue* jsonValue)
         return;
     }
 
-    propTrackers.clear();
-
     UT_JSONValue* props = jsonMap->get(PROPS_KEY);
     if (props)
     {
@@ -95,7 +68,7 @@ void RokokoData::parseData(const UT_JSONValue* jsonValue)
     // TODO: faces
 }
 
-void RokokoData::parsePropsOrTrackers(const UT_JSONValue* jsonValue)
+void RokokoDataParser::parsePropsOrTrackers(const UT_JSONValue* jsonValue)
 {
     if (!jsonValue)
     {
@@ -139,7 +112,7 @@ void RokokoData::parsePropsOrTrackers(const UT_JSONValue* jsonValue)
 }
 
 
-UT_Vector3 RokokoData::parsePosition(const UT_JSONValue* jsonValue)
+UT_Vector3 RokokoDataParser::parsePosition(const UT_JSONValue* jsonValue)
 {
     UT_Vector3 position(0.0, 0.0, 0.0);
 
@@ -169,7 +142,7 @@ UT_Vector3 RokokoData::parsePosition(const UT_JSONValue* jsonValue)
     return position;
 }
 
-UT_Quaternion RokokoData::parseRotation(const UT_JSONValue* jsonValue)
+UT_Quaternion RokokoDataParser::parseRotation(const UT_JSONValue* jsonValue)
 {
     UT_Quaternion rotation;
 
@@ -205,28 +178,3 @@ UT_Quaternion RokokoData::parseRotation(const UT_JSONValue* jsonValue)
     return rotation;
 }
 
-void RokokoData::createClientSocket()
-{
-    myClientSocket = new RokokoClientSocket(ip.c_str(), port);
-}
-
-bool RokokoData::openClientSocket()
-{
-    if (myClientSocket->isConnected())
-    {
-        return true;
-    }
-
-    return myClientSocket->connect() == UT_NetSocket::UT_CONNECT_SUCCESS;
-}
-
-void RokokoData::destroyClientSocket()
-{
-    if (myClientSocket)
-    {
-        myClientSocket->close();
-        delete myClientSocket;
-
-        myClientSocket = nullptr;
-    }
-}

@@ -25,31 +25,25 @@ static PRM_Default UpdateRateDefault(60);
 static PRM_Range PortRange(PRM_RANGE_UI, 1, PRM_RANGE_UI, 65535);
 static PRM_Range UpdateRateRange(PRM_RANGE_UI, 1, PRM_RANGE_UI, 240);
 
-static PRM_Callback
-
 
 static PRM_Template templatelist[] =
 {
     PRM_Template(PRM_INT_E, 1, &Port_Param, &PortDefault, 0, &PortRange),
     PRM_Template(PRM_STRING, 1, &IP_Param, &IPDefault),
-    PRM_Template(PRM_FLT_E, 1, &UpdateRate_Param, &UpdateRateDefault),
+    PRM_Template(PRM_FLT_E, 1, &UpdateRate_Param, &UpdateRateDefault, 0, &UpdateRateRange),
 
     // blank terminating Template.
     PRM_Template()
 };
 
-
-
 // Constructor for new object class
 OBJ_RokokoFrontend::OBJ_RokokoFrontend(OP_Network* net, const char* name, OP_Operator* op) : OBJ_Geometry(net, name, op)
 {
-    const fpreal evalTime = CHgetEvalTime();
+    const std::string ip = GET_IP();
+    const int port = GET_PORT();
+    const int updateRateMs = 1000 / GET_UPDATE_RATE();
 
-    const int updateRateMs = 1000 / UPDATE_RATE(evalTime);
-    const int port = PORT(evalTime);
-    const std::string ip = IP(evalTime);
-
-    receiver = new RokokoReceiver(updateRateMs, port, ip);
+    receiver = new RokokoReceiver(ip, port, updateRateMs);
 
 }
 
@@ -120,13 +114,28 @@ OP_TemplatePair* OBJ_RokokoFrontend::buildTemplatePair(OP_TemplatePair* prevstuf
     return geo;
 }
 
+int OBJ_RokokoFrontend::GET_PORT()
+{
+    return evalInt("port", 0, CHgetEvalTime());
+}
 
+int OBJ_RokokoFrontend::GET_UPDATE_RATE()
+{
+    return evalInt("update_rate", 0, CHgetEvalTime());
+}
+
+std::string OBJ_RokokoFrontend::GET_IP()
+{
+    UT_String value;
+    evalString(value, "ip", 0, CHgetEvalTime());
+
+    return value.c_str();
+}
 
 OP_Node* OBJ_RokokoFrontend::myConstructor(OP_Network* net, const char* name, OP_Operator* op)
 {
     return new OBJ_RokokoFrontend(net, name, op);
 }
-
 
 OP_ERROR OBJ_RokokoFrontend::cookMyObj(OP_Context& context)
 {
@@ -139,7 +148,6 @@ OP_ERROR OBJ_RokokoFrontend::cookMyObj(OP_Context& context)
 
     return errorstatus;
 }
-
 
 // this function installs the new object in houdini's object table.
 void newObjectOperator(OP_OperatorTable* table)
