@@ -8,7 +8,7 @@
 
 RokokoSocketReader::RokokoSocketReader(const std::string& inIp, int inPort) : ip(inIp), port(inPort)
 {
-    createClientSocket();
+    createClientSocket(); 
 }
 
 RokokoSocketReader::~RokokoSocketReader()

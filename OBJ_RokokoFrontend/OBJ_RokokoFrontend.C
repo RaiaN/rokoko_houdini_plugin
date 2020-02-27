@@ -47,6 +47,7 @@ OBJ_RokokoFrontend::OBJ_RokokoFrontend(OP_Network* net, const char* name, OP_Ope
     const int updateRateMs = 1000 / GET_UPDATE_RATE();
 
     receiver = new RokokoReceiver(ip, port, updateRateMs);
+    receiver->start();
 
 }
 
@@ -189,10 +190,10 @@ OP_ERROR OBJ_RokokoFrontend::cookMyObj(OP_Context& context)
 {
     OP_ERROR errorstatus = OP_ERROR::UT_ERROR_NONE;
     
-    if (receiver)
+    /*if (receiver)
     {
         receiver->start();
-    }
+    }*/
 
     return errorstatus;
 }
