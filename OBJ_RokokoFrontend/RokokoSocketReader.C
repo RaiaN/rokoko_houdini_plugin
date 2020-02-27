@@ -30,13 +30,13 @@ bool RokokoSocketReader::read(std::string& outBuffer)
 
     UT_WorkBuffer buffer;
     const int readResult = socket->read(buffer);
-    if (readResult == UT_NetSocket::UT_CONNECT_SUCCESS)
+    if (readResult != UT_NetSocket::UT_CONNECT_SUCCESS)
     {
-        outBuffer.assign(buffer.toStdString());
-        return true;
+        return false;
     }
 
-    return false;
+    outBuffer.assign(buffer.toStdString());
+    return true;
 }
 
 void RokokoSocketReader::setIpAndPort(const std::string& inIp, int inPort)
