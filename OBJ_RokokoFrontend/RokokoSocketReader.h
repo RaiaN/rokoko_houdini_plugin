@@ -6,7 +6,8 @@
 #include <string>
 
 
-class UT_NetSocket;
+class UDPSocket;
+class WSASession;
 
 
 class RokokoSocketReader
@@ -23,11 +24,11 @@ public:
 
 private:
     void createClientSocket();
-    bool openClientSocket();
     void destroyClientSocket();
 
 private:
-    UT_NetSocket* socket;
+    UDPSocket* udpSocket;
+    WSASession* session;
 
     std::string ip;
     int port;

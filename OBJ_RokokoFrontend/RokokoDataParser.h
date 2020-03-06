@@ -28,6 +28,8 @@ public:
 protected:
     void parseData(const UT_JSONValue* jsonValue);
     void parsePropsOrTrackers(const UT_JSONValue* jsonValue);
+    void parseActors(const UT_JSONValue* jsonValue);
+
     UT_Vector3 parsePosition(const UT_JSONValue* jsonValue);
     UT_Quaternion parseRotation(const UT_JSONValue* jsonValue);
     
