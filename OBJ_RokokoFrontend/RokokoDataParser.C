@@ -44,6 +44,7 @@ void RokokoDataParser::parseData(const UT_JSONValue* jsonValue)
     static const UT_StringRef PROPS_KEY("props");
     static const UT_StringRef TRACKERS_KEY("trackers");
     static const UT_StringRef FACES_KEY("faces");
+    static const UT_StringRef ACTORS_KEY("actors");
 
 
     UT_JSONValueMap* jsonMap = jsonValue->getMap();
@@ -63,6 +64,12 @@ void RokokoDataParser::parseData(const UT_JSONValue* jsonValue)
     if (trackers)
     {
         parsePropsOrTrackers(trackers);
+    }
+
+    UT_JSONValue* actors = jsonMap->get(ACTORS_KEY);
+    if (trackers)
+    {
+        parseActors(trackers);
     }
 
     // TODO: faces
@@ -111,6 +118,20 @@ void RokokoDataParser::parsePropsOrTrackers(const UT_JSONValue* jsonValue)
     }
 }
 
+
+void RokokoDataParser::parseActors(const UT_JSONValue* jsonValue)
+{
+    if (!jsonValue)
+    {
+        return;
+    }
+
+    static const UT_StringRef NAME_KEY("name");
+
+    // parse bones positions and rotations
+    // convert Rokoko positions and rotations to Houdini ones
+    
+}
 
 UT_Vector3 RokokoDataParser::parsePosition(const UT_JSONValue* jsonValue)
 {
