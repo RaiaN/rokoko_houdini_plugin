@@ -17,24 +17,22 @@ find_package( Houdini REQUIRED )
 
 set( library_name OBJ_RokokoFrontend )
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
 # No optimization.
 # Turn on debugging information instead.
 
 
-SET_SOURCE_FILES_PROPERTIES(
-	${C_SOURCE}
-	PROPERTIES COMPILE_FLAGS "-TP"
-)
 
 # Add a library and its source files.
 add_library( ${library_name} SHARED
-    OBJ_RokokoFrontend.C
+    OBJ_RokokoFrontend.cpp
     OBJ_RokokoFrontend.h
-    RokokoDataParser.C
+    RokokoDataParser.cpp
     RokokoDataParser.h
-    RokokoSocketReader.C
+    RokokoSocketReader.cpp
     RokokoSocketReader.h
-    RokokoReceiver.C
+    RokokoReceiver.cpp
     RokokoReceiver.h
     PropTrackerInfo.h
     
