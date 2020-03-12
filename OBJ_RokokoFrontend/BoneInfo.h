@@ -1,23 +1,18 @@
 // Copyright Peter Leontev 2020
 
-#ifndef _PROP_TRACKER_INFO_H
-#define _PROP_TRACKER_INFO_H
+#ifndef _BONE_INFO_H
+#define _BONE_INFO_H
 
 #include <string>
-
-#include <UT/UT_Vector3.h>
-#include <UT/UT_Quaternion.h>
 
 #include "TransformInfo.h"
 
 
-struct PropTrackerInfo
+struct BoneInfo
 {
 public:
     std::string name;
     TransformInfo transform;
-
-
 };
 
 #endif
